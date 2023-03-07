@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "project-name",
+    "version": "1.0.0",
+    "dependencies": [
+        "sqlite3",
+        "sqlitecpp",
+        "boost-algorithm"
+    ],
+    "overrides": [
+        {
+            "name": "boost-algorithm",
+            "version": "1.79.0"
+        }
+    ],
+    "builtin-baseline": ""
+}
