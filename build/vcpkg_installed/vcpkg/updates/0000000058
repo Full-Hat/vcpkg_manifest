@@ -1,0 +1,9 @@
+Package: boost-typeof
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-preprocessor, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 3ac51538a60c4acadff12c992d31638f84eba6e247c0e73c75a0cc3bcd02e1b5
+Description: Boost typeof module
+Status: install ok half-installed

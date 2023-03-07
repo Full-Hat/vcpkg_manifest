@@ -1,0 +1,9 @@
+Package: boost-fusion
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-container-hash, boost-core, boost-function-types, boost-functional, boost-mpl, boost-preprocessor, boost-static-assert, boost-tuple, boost-type-traits, boost-typeof, boost-utility, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 7803800ec73d5f291ceb0c8df6200a7dfa57561b093a774eb90eee4f024ad763
+Description: Boost fusion module
+Status: install ok installed

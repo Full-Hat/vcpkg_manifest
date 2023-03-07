@@ -1,0 +1,9 @@
+Package: boost-function-types
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-core, boost-detail, boost-mpl, boost-preprocessor, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: b1750b8ec44177a0b51ea0573224b1d373c9d85bf2bb2fa24627a175bea13b91
+Description: Boost function_types module
+Status: install ok installed

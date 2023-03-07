@@ -1,0 +1,9 @@
+Package: boost-move
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-vcpkg-helpers, boost-winapi
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 19f430426b91ccf74d406240a9037f497ac41530d5e92a3632aec935c924ad64
+Description: Boost move module
+Status: install ok half-installed

@@ -1,0 +1,9 @@
+Package: boost-function
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-bind, boost-config, boost-core, boost-integer, boost-preprocessor, boost-throw-exception, boost-type-index, boost-type-traits, boost-typeof, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: abc5fefb5273aa156f617c20970817c44602359cbbfd67d4118095f6fec920d1
+Description: Boost function module
+Status: install ok half-installed

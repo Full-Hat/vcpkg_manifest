@@ -1,0 +1,9 @@
+Package: boost-static-assert
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: ca1914e07cb27925cedf0dc5ba3405c8fa9454bef27aa7959bb49e6be27f39f6
+Description: Boost static_assert module
+Status: install ok half-installed

@@ -1,0 +1,3 @@
+/Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles/projectName.dir
+/Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles/edit_cache.dir
+/Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,9 @@
+Package: boost-modular-build-helper
+Version: 1.81.0
+Port-Version: 5
+Depends: boost-uninstall, vcpkg-cmake, vcpkg-cmake-get-vars
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: e5588eff161ea2de4e6ff696cabf1a12cc5488f7e4381710024d45af59016cc6
+Description: Internal vcpkg port used to build Boost libraries
+Status: install ok installed

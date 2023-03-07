@@ -1,0 +1,6 @@
+error: while checking out baseline from commit 'd7f7f1117fbf8711a5d23b6e53b114d7987a75bc', failed to `git show` versions/baseline.json. This may be fixed by fetching commits with `git fetch`.
+error: git failed with exit code: (128).
+fatal: path 'versions/baseline.json' exists on disk, but not in 'd7f7f1117fbf8711a5d23b6e53b114d7987a75bc'
+
+You can use the current commit as a baseline, which is:
+	"builtin-baseline": "e69c9817d28e0ad37a79b5623c17c2b87df8939f"
