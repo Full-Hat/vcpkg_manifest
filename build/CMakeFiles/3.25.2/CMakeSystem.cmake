@@ -3,7 +3,7 @@ set(CMAKE_HOST_SYSTEM_NAME "Darwin")
 set(CMAKE_HOST_SYSTEM_VERSION "22.2.0")
 set(CMAKE_HOST_SYSTEM_PROCESSOR "arm64")
 
-include("/Users/fullhat/Documents/Labs/Cursovaya/vcpkg/scripts/buildsystems/vcpkg.cmake")
+include("/Users/fullhat/Documents/Labs/vcpkg_manifest/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 set(CMAKE_SYSTEM "Darwin-22.2.0")
 set(CMAKE_SYSTEM_NAME "Darwin")

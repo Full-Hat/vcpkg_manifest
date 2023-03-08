@@ -1,0 +1,8 @@
+Package: boost-assert
+Version: 1.79.0
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: d457fc47338b4772f83b6911ed662e628746f791e078659ac8d7014c7c0feee7
+Description: Boost assert module
+Status: install ok installed

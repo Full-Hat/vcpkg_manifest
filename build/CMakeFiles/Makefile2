@@ -54,10 +54,10 @@ RM = /opt/homebrew/Cellar/cmake/3.25.2/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/fullhat/Documents/Labs/Cursovaya
+CMAKE_SOURCE_DIR = /Users/fullhat/Documents/Labs/vcpkg_manifest
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/fullhat/Documents/Labs/Cursovaya/build
+CMAKE_BINARY_DIR = /Users/fullhat/Documents/Labs/vcpkg_manifest/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/projectName.dir/clean
 CMakeFiles/projectName.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/projectName.dir/build.make CMakeFiles/projectName.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/projectName.dir/build.make CMakeFiles/projectName.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles --progress-num=1,2 "Built target projectName"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/fullhat/Documents/Labs/vcpkg_manifest/build/CMakeFiles --progress-num=1,2 "Built target projectName"
 .PHONY : CMakeFiles/projectName.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/projectName.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fullhat/Documents/Labs/vcpkg_manifest/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/projectName.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fullhat/Documents/Labs/vcpkg_manifest/build/CMakeFiles 0
 .PHONY : CMakeFiles/projectName.dir/rule
 
 # Convenience name for target.

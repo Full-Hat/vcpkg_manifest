@@ -1,0 +1,8 @@
+Package: boost-describe
+Version: 1.79.0
+Depends: boost-mp11, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: e256fcc875c31dd804a018a9c2045cbf4ef92c3c7670c71a3dc8b360bef50b72
+Description: Boost describe module
+Status: install ok half-installed

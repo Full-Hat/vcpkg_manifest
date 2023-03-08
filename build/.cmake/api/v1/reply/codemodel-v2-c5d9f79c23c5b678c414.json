@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/fullhat/Documents/Labs/Cursovaya/build",
-		"source" : "/Users/fullhat/Documents/Labs/Cursovaya"
+		"build" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/build",
+		"source" : "/Users/fullhat/Documents/Labs/vcpkg_manifest"
 	},
 	"version" : 
 	{

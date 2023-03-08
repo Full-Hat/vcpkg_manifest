@@ -1,0 +1,10 @@
+Package: sqlitecpp
+Version: 3.2.0
+Port-Version: 1
+Depends: sqlite3, vcpkg-cmake, vcpkg-cmake-config
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 3bb1b23beacb737aed77a0b43eb8d2e411987d2b2403b59a66f89a08f8366f9e
+Description: SQLiteC++ (SQLiteCpp) is a smart and easy to use C++ SQLite3 wrapper.
+Default-Features: sqlite
+Status: install ok half-installed

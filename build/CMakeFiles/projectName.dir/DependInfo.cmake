@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/fullhat/Documents/Labs/Cursovaya/main.cpp" "CMakeFiles/projectName.dir/main.cpp.o" "gcc" "CMakeFiles/projectName.dir/main.cpp.o.d"
+  "/Users/fullhat/Documents/Labs/vcpkg_manifest/main.cpp" "CMakeFiles/projectName.dir/main.cpp.o" "gcc" "CMakeFiles/projectName.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links.

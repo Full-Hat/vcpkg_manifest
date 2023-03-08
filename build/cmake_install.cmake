@@ -1,4 +1,4 @@
-# Install script for directory: /Users/fullhat/Documents/Labs/Cursovaya
+# Install script for directory: /Users/fullhat/Documents/Labs/vcpkg_manifest
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/fullhat/Documents/Labs/Cursovaya/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/fullhat/Documents/Labs/vcpkg_manifest/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

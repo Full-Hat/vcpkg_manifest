@@ -1,0 +1,8 @@
+Package: boost-regex
+Version: 1.79.0
+Depends: boost-assert, boost-build, boost-concept-check, boost-config, boost-container-hash, boost-core, boost-integer, boost-modular-build-helper, boost-mpl, boost-predef, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: ad31993f714d5d153f05e3ca985b2219febb9141fee944a22269beb5bc67327d
+Description: Boost regex module
+Status: install ok installed

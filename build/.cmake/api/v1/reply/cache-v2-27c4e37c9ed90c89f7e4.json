@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -155,10 +155,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/clang++"
 		},
 		{
@@ -251,10 +251,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/clang"
 		},
 		{
@@ -491,7 +491,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build/CMakeFiles/pkgRedirects"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -542,18 +542,6 @@
 			"value" : ""
 		},
 		{
-			"name" : "CMAKE_HAVE_LIBC_PTHREAD",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Test CMAKE_HAVE_LIBC_PTHREAD"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "1"
-		},
-		{
 			"name" : "CMAKE_HOME_DIRECTORY",
 			"properties" : 
 			[
@@ -563,7 +551,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -1171,11 +1159,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "The CMake toolchain file"
 				}
 			],
-			"type" : "STRING",
-			"value" : "~/Documents/Labs/Cursovaya/vcpkg/scripts/buildsystems/vcpkg.cmake"
+			"type" : "FILEPATH",
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/vcpkg/scripts/buildsystems/vcpkg.cmake"
 		},
 		{
 			"name" : "CMAKE_UNAME",
@@ -1204,30 +1192,6 @@
 			],
 			"type" : "BOOL",
 			"value" : "FALSE"
-		},
-		{
-			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Threads",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Details about finding Threads"
-				}
-			],
-			"type" : "INTERNAL",
-			"value" : "[TRUE][v()]"
-		},
-		{
-			"name" : "SQLiteCpp_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "The directory containing a CMake configuration file for SQLiteCpp."
-				}
-			],
-			"type" : "PATH",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build/vcpkg_installed/arm64-osx/share/SQLiteCpp"
 		},
 		{
 			"name" : "VCPKG_APPLOCAL_DEPS",
@@ -1263,7 +1227,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build/vcpkg_installed"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/build/vcpkg_installed"
 		},
 		{
 			"name" : "VCPKG_INSTALL_OPTIONS",
@@ -1287,7 +1251,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest"
 		},
 		{
 			"name" : "VCPKG_MANIFEST_INSTALL",
@@ -1459,7 +1423,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/vcpkg"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/vcpkg"
 		},
 		{
 			"name" : "_VCPKG_INSTALLED_DIR",
@@ -1471,7 +1435,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build/vcpkg_installed"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/build/vcpkg_installed"
 		},
 		{
 			"name" : "projectName_BINARY_DIR",
@@ -1483,7 +1447,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest/build"
 		},
 		{
 			"name" : "projectName_IS_TOP_LEVEL",
@@ -1507,19 +1471,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya"
-		},
-		{
-			"name" : "unofficial-sqlite3_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "The directory containing a CMake configuration file for unofficial-sqlite3."
-				}
-			],
-			"type" : "PATH",
-			"value" : "/Users/fullhat/Documents/Labs/Cursovaya/build/vcpkg_installed/arm64-osx/share/unofficial-sqlite3"
+			"value" : "/Users/fullhat/Documents/Labs/vcpkg_manifest"
 		}
 	],
 	"kind" : "cache",
