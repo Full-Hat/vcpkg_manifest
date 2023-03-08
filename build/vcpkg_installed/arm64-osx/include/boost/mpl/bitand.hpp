@@ -19,7 +19,7 @@
 // macros, see http://tinyurl.com/ycwdxco; 'defined(bitand)'
 // has to be checked in a separate condition, otherwise GCC complains 
 // about 'bitand' being an alternative token
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && !defined(__clang__)
 #ifndef __GCCXML__
 #if defined(bitand)
 #   pragma push_macro("bitand")

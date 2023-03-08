@@ -1,9 +1,0 @@
-Package: boost-bind
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-core, boost-vcpkg-helpers
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: cdff934cc38a27743d492ac77d78ffbc5a4b6550f5d7b52a8bba61ea0c4a5304
-Description: Boost bind module
-Status: install ok half-installed

@@ -35,7 +35,6 @@
 #include "lists.h"
 #include "execcmd.h"
 #include "output.h"
-#include "startup.h"
 
 #ifdef OS_VMS
 
@@ -202,7 +201,7 @@ void exec_cmd
             if ( !cwd )
             {
                 errno_puts( "can not get current working directory" );
-                b2::clean_exit( EXITBAD );
+                exit( EXITBAD );
             }
 
             fprintf( f, "$ SET DEFAULT %s\n", cwd);

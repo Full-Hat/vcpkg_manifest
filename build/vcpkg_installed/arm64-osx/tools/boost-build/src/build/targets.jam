@@ -600,21 +600,13 @@ local rule start-building ( main-target-instance )
         local names ;
         for local t in $(.targets-being-built) $(main-target-instance)
         {
-            local name = [ $(t).full-name ] ;
-            if $(t) = $(main-target-instance)
-            {
-                names += ***$(name)*** ;
-            }
-            else
-            {
-                names += $(name) ;
-            }
+            names += [ $(t).full-name ] ;
         }
 
         import errors ;
         errors.error "Recursion in main target references"
           : "the following target are being built currently:"
-          : $(names:J=" -> ") ;
+          : $(names) ;
     }
     .targets-being-built += $(main-target-instance) ;
 }

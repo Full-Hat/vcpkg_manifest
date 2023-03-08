@@ -76,7 +76,7 @@ static struct hash * archivecache_hash;
 
 file_archive_info_t * file_archive_info( OBJECT * const path, int * found )
 {
-    OBJECT * path_key = path_as_key( path );
+    OBJECT * const path_key = path_as_key( path );
     file_archive_info_t * archive;
 
     if ( !archivecache_hash )
@@ -106,7 +106,7 @@ file_archive_info_t * file_archive_info( OBJECT * const path, int * found )
  * the path does not reference an existing file system object.
  */
 
-file_archive_info_t * file_archive_query( OBJECT * path )
+file_archive_info_t * file_archive_query( OBJECT * const path )
 {
     int found;
     file_archive_info_t * const archive = file_archive_info( path, &found );
@@ -213,7 +213,7 @@ void file_done()
 
 file_info_t * file_info( OBJECT * const path, int * found )
 {
-    OBJECT * path_key = path_as_key( path );
+    OBJECT * const path_key = path_as_key( path );
     file_info_t * finfo;
 
     if ( !filecache_hash )
@@ -423,7 +423,7 @@ static void file_archivescan_impl( OBJECT * path, archive_scanback func, void * 
                 object_str( member_file->name ) );
 
             {
-                OBJECT * member = object_new( buf );
+                OBJECT * const member = object_new( buf );
                 (*func)( closure, member, symbols, 1, &member_file->time );
                 object_free( member );
             }
@@ -513,7 +513,7 @@ static void remove_files_atexit( void )
 
 FILELIST * filelist_new( OBJECT * path )
 {
-    FILELIST * list = b2::jam::make_ptr<FILELIST>();
+    FILELIST * list = (FILELIST *)BJAM_MALLOC( sizeof( FILELIST ) );
 
     memset( list, 0, sizeof( *list ) );
     list->size = 0;
@@ -537,10 +537,13 @@ FILELIST * filelist_push_back( FILELIST * list, OBJECT * path )
     }
 
 
-    item = b2::jam::make_ptr<FILEITEM>();
-    item->value = b2::jam::make_ptr<file_info_t>();
+    item = (FILEITEM *)BJAM_MALLOC( sizeof( FILEITEM ) );
+    memset( item, 0, sizeof( *item ) );
+    item->value = (file_info_t *)BJAM_MALLOC( sizeof( file_info_t ) );
 
     file = item->value;
+    memset( file, 0, sizeof( *file ) );
+
     file->name = path;
     file->files = L0;
 
@@ -572,9 +575,9 @@ FILELIST * filelist_push_front( FILELIST * list, OBJECT * path )
     }
 
 
-    item = b2::jam::make_ptr<FILEITEM>();
+    item = (FILEITEM *)BJAM_MALLOC( sizeof( FILEITEM ) );
     memset( item, 0, sizeof( *item ) );
-    item->value = b2::jam::make_ptr<file_info_t>();
+    item->value = (file_info_t *)BJAM_MALLOC( sizeof( file_info_t ) );
 
     file = item->value;
     memset( file, 0, sizeof( *file ) );
@@ -607,17 +610,15 @@ FILELIST * filelist_pop_front( FILELIST * list )
 
     if ( item )
     {
-        if ( item->value )
-        {
-            free_file_info( item->value, 0 );
-            b2::jam::free_ptr( item->value );
-        }
+        if ( item->value ) free_file_info( item->value, 0 );
 
         list->head = item->next;
         list->size--;
         if ( !list->size ) list->tail = list->head;
 
-        b2::jam::free_ptr( item );
+#ifdef BJAM_NO_MEM_CACHE
+        BJAM_FREE( item );
+#endif
     }
 
     return list;
@@ -637,7 +638,9 @@ void filelist_free( FILELIST * list )
 
     while ( filelist_length( list ) ) filelist_pop_front( list );
 
-    b2::jam::free_ptr( list );
+#ifdef BJAM_NO_MEM_CACHE
+    BJAM_FREE( list );
+#endif
 }
 
 int filelist_empty( FILELIST * list )

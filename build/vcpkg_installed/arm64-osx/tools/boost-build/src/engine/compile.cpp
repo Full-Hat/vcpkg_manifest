@@ -5,7 +5,6 @@
  */
 
 /*  This file is ALSO:
- *  Copyright 2022 René Ferdinand Rivera Morell
  *  Copyright 2001-2004 David Abrahams.
  *  Distributed under the Boost Software License, Version 1.0.
  *  (See accompanying file LICENSE.txt or https://www.bfgroup.xyz/b2/LICENSE.txt)
@@ -37,7 +36,6 @@
 #include "jam_strings.h"
 #include "variable.h"
 #include "output.h"
-#include "startup.h"
 
 #include <assert.h>
 #include <stdarg.h>
@@ -108,14 +106,15 @@ LIST * evaluate_rule( RULE * rule, OBJECT * rulename, FRAME * frame )
      */
     if ( rule->actions )
     {
-        targets_ptr t;
+        TARGETS * t;
 
         /* The action is associated with this instance of this rule. */
-        ACTION * const action = b2::jam::make_ptr<ACTION>();
+        ACTION * const action = (ACTION *)BJAM_MALLOC( sizeof( ACTION ) );
+        memset( (char *)action, '\0', sizeof( *action ) );
 
         action->rule = rule;
-        action->targets.reset(); targetlist( action->targets, lol_get( frame->args, 0 ) );
-        action->sources.reset(); targetlist( action->sources, lol_get( frame->args, 1 ) );
+        action->targets = targetlist( (TARGETS *)0, lol_get( frame->args, 0 ) );
+        action->sources = targetlist( (TARGETS *)0, lol_get( frame->args, 1 ) );
         action->refs = 1;
 
         /* If we have a group of targets all being built using the same action
@@ -126,15 +125,15 @@ LIST * evaluate_rule( RULE * rule, OBJECT * rulename, FRAME * frame )
         if ( action->targets )
         {
             TARGET * const t0 = action->targets->target;
-            for ( t = action->targets->next.get(); t; t = t->next.get() )
+            for ( t = action->targets->next; t; t = t->next )
             {
-                targetentry( t->target->rebuilds, t0 );
-                targetentry( t0->rebuilds, t->target );
+                t->target->rebuilds = targetentry( t->target->rebuilds, t0 );
+                t0->rebuilds = targetentry( t0->rebuilds, t->target );
             }
         }
 
         /* Append this action to the actions of each target. */
-        for ( t = action->targets.get(); t; t = t->next.get() )
+        for ( t = action->targets; t; t = t->next )
             t->target->actions = actionlist( t->target->actions, action );
 
         action_free( action );
@@ -146,8 +145,10 @@ LIST * evaluate_rule( RULE * rule, OBJECT * rulename, FRAME * frame )
      */
     if ( rule->procedure )
     {
-        auto function = b2::jam::make_unique_bare_jptr( rule->procedure, function_refer, function_free );
-        result = function_run( function.get(), frame );
+        FUNCTION * const function = rule->procedure;
+        function_refer( function );
+        result = function_run( function, frame, stack_global() );
+        function_free( function );
     }
 
     if ( DEBUG_PROFILE && rule->procedure )

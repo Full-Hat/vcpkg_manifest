@@ -1,9 +1,0 @@
-Package: boost-concept-check
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-config, boost-preprocessor, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: e9e0e03757dbd6ed57f097deb3969b038e8aca986431a7ca11590e8ea3bb3300
-Description: Boost concept_check module
-Status: install ok half-installed

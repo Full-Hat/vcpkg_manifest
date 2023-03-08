@@ -5,7 +5,6 @@
  */
 
 /*  This file is ALSO:
- *  Copyright 2022 René Ferdinand Rivera Morell
  *  Copyright 2001-2004 David Abrahams.
  *  Distributed under the Boost Software License, Version 1.0.
  *  (See accompanying file LICENSE.txt or https://www.bfgroup.xyz/b2/LICENSE.txt)
@@ -34,15 +33,14 @@
 #include "hash.h"
 #include "lists.h"
 #include "object.h"
-#include "output.h"
 #include "parse.h"
 #include "pathsys.h"
 #include "search.h"
 #include "variable.h"
 
 
-static void set_rule_actions( rule_ptr, rule_actions_ptr );
-static void set_rule_body   ( rule_ptr, function_ptr );
+static void set_rule_actions( RULE *, rule_actions * );
+static void set_rule_body   ( RULE *, FUNCTION * );
 
 static struct hash * targethash = 0;
 
@@ -56,11 +54,12 @@ static struct hash * targethash = 0;
  * then read the internal includes node from there.
  */
 
-static target_ptr get_target_includes( target_ptr const t )
+static TARGET * get_target_includes( TARGET * const t )
 {
     if ( !t->includes )
     {
-        target_ptr const i = b2::jam::make_ptr<_target>();
+        TARGET * const i = (TARGET *)BJAM_MALLOC( sizeof( *t ) );
+        memset( (char *)i, '\0', sizeof( *i ) );
         i->name = object_copy( t->name );
         i->boundname = object_copy( i->name );
         i->flags |= T_FLAG_NOTFILE | T_FLAG_INTERNAL;
@@ -78,17 +77,17 @@ static target_ptr get_target_includes( target_ptr const t )
  * internal include node.
  */
 
-void target_include( target_ptr const including, target_ptr const included )
+void target_include( TARGET * const including, TARGET * const included )
 {
-    target_ptr const internal = get_target_includes( including );
-    targetentry( internal->depends, included );
+    TARGET * const internal = get_target_includes( including );
+    internal->depends = targetentry( internal->depends, included );
 }
 
-void target_include_many( target_ptr const including, list_ptr const included_names
+void target_include_many( TARGET * const including, LIST * const included_names
     )
 {
-    target_ptr const internal = get_target_includes( including );
-    targetlist( internal->depends, included_names );
+    TARGET * const internal = get_target_includes( including );
+    internal->depends = targetlist( internal->depends, included_names );
 }
 
 
@@ -97,10 +96,10 @@ void target_include_many( target_ptr const including, list_ptr const included_na
  * target_module.
  */
 
-static rule_ptr enter_rule( object_ptr rulename, module_ptr target_module )
+static RULE * enter_rule( OBJECT * rulename, module_t * target_module )
 {
     int found;
-    rule_ptr const r = (rule_ptr)hash_insert( demand_rules( target_module ),
+    RULE * const r = (RULE *)hash_insert( demand_rules( target_module ),
         rulename, &found );
     if ( !found )
     {
@@ -121,10 +120,10 @@ static rule_ptr enter_rule( object_ptr rulename, module_ptr target_module )
  * src_module.
  */
 
-static rule_ptr define_rule( module_ptr src_module, object_ptr rulename,
-    module_ptr target_module )
+static RULE * define_rule( module_t * src_module, OBJECT * rulename,
+    module_t * target_module )
 {
-    rule_ptr const r = enter_rule( rulename, target_module );
+    RULE * const r = enter_rule( rulename, target_module );
     if ( r->module != src_module )
     {
         /* If the rule was imported from elsewhere, clear it now. */
@@ -137,7 +136,7 @@ static rule_ptr define_rule( module_ptr src_module, object_ptr rulename,
 }
 
 
-void rule_free( rule_ptr r )
+void rule_free( RULE * r )
 {
     object_free( r->name );
     r->name = 0;
@@ -154,18 +153,18 @@ void rule_free( rule_ptr r )
  * bindtarget() - return pointer to TARGET, creating it if necessary.
  */
 
-target_ptr bindtarget( object_ptr const target_name )
+TARGET * bindtarget( OBJECT * const target_name )
 {
     int found;
-    target_ptr t;
+    TARGET * t;
 
     if ( !targethash )
         targethash = hashinit( sizeof( TARGET ), "targets" );
 
-    t = (target_ptr)hash_insert( targethash, target_name, &found );
+    t = (TARGET *)hash_insert( targethash, target_name, &found );
     if ( !found )
     {
-        b2::jam::ctor_ptr<_target>(t);
+        memset( (char *)t, '\0', sizeof( *t ) );
         t->name = object_copy( target_name );
         t->boundname = object_copy( t->name );  /* default for T_FLAG_NOTFILE */
     }
@@ -174,12 +173,13 @@ target_ptr bindtarget( object_ptr const target_name )
 }
 
 
-static void bind_explicitly_located_target( target_ptr t, void * )
+static void bind_explicitly_located_target( void * xtarget, void * data )
 {
+    TARGET * t = (TARGET *)xtarget;
     if ( !( t->flags & T_FLAG_NOTFILE ) )
     {
         /* Check if there is a setting for LOCATE. */
-        settings_ptr s = t->settings;
+        SETTINGS * s = t->settings;
         for ( ; s ; s = s->next )
         {
             if ( object_equal( s->symbol, constant_LOCATE ) && ! list_empty( s->value ) )
@@ -195,7 +195,7 @@ static void bind_explicitly_located_target( target_ptr t, void * )
 void bind_explicitly_located_targets()
 {
     if ( targethash )
-        hash_enumerate( targethash, bind_explicitly_located_target );
+        hashenumerate( targethash, bind_explicitly_located_target, (void *)0 );
 }
 
 
@@ -203,7 +203,7 @@ void bind_explicitly_located_targets()
  * touch_target() - mark a target to simulate being new.
  */
 
-void touch_target( object_ptr const t )
+void touch_target( OBJECT * const t )
 {
     bindtarget( t )->flags |= T_FLAG_TOUCHED;
 }
@@ -214,14 +214,14 @@ void touch_target( object_ptr const t )
  * target is a part of.
  */
 
-target_ptr target_scc( target_ptr t )
+TARGET * target_scc( TARGET * t )
 {
-    target_ptr result = t;
+    TARGET * result = t;
     while ( result->scc_root )
         result = result->scc_root;
     while ( t->scc_root )
     {
-        target_ptr const tmp = t->scc_root;
+        TARGET * const tmp = t->scc_root;
         t->scc_root = result;
         t = tmp;
     }
@@ -237,12 +237,13 @@ target_ptr target_scc( target_ptr t )
  *  targets  list of target names
  */
 
-void targetlist( targets_uptr& chain, list_ptr target_names )
+TARGETS * targetlist( TARGETS * chain, LIST * target_names )
 {
     LISTITER iter = list_begin( target_names );
     LISTITER const end = list_end( target_names );
     for ( ; iter != end; iter = list_next( iter ) )
-        targetentry( chain, bindtarget( list_item( iter ) ) );
+        chain = targetentry( chain, bindtarget( list_item( iter ) ) );
+    return chain;
 }
 
 
@@ -254,15 +255,17 @@ void targetlist( targets_uptr& chain, list_ptr target_names )
  *  target  new target to append
  */
 
-void targetentry( targets_uptr& chain, target_ptr target )
+TARGETS * targetentry( TARGETS * chain, TARGET * target )
 {
-    auto c = b2::jam::make_unique_jptr<TARGETS>();
+    TARGETS * const c = (TARGETS *)BJAM_MALLOC( sizeof( TARGETS ) );
     c->target = target;
 
-    targets_ptr tail = c.get();
-    if ( !chain ) chain.reset(c.release());
-    else chain->tail->next.reset(c.release());
-    chain->tail = tail;
+    if ( !chain ) chain = c;
+    else chain->tail->next = c;
+    chain->tail = c;
+    c->next = 0;
+
+    return chain;
 }
 
 
@@ -274,41 +277,27 @@ void targetentry( targets_uptr& chain, target_ptr target )
  *  target  new target to append
  */
 
-targets_uptr targetchain( targets_uptr chain, targets_uptr targets )
+TARGETS * targetchain( TARGETS * chain, TARGETS * targets )
 {
     if ( !targets ) return chain;
     if ( !chain ) return targets;
 
-    targets_ptr tail = targets->tail;
-    chain->tail->next = std::move(targets);
-    chain->tail = tail;
+    chain->tail->next = targets;
+    chain->tail = targets->tail;
     return chain;
-}
-
-/*
- * targets_pop() - removes the first TARGET from the chain.
- */
-
-targets_uptr targets_pop(targets_uptr chain)
-{
-    targets_uptr result;
-    if ( chain && chain->next )
-    {
-        chain->next->tail = chain->tail;
-        result = std::move( chain->next );
-    }
-    return result;
 }
 
 /*
  * action_free - decrement the ACTIONs reference count and (maybe) free it.
  */
 
-void action_free( action_ptr action )
+void action_free( ACTION * action )
 {
     if ( --action->refs == 0 )
     {
-        b2::jam::free_ptr(action);
+        freetargets( action->targets );
+        freetargets( action->sources );
+        BJAM_FREE( action );
     }
 }
 
@@ -317,9 +306,9 @@ void action_free( action_ptr action )
  * actionlist() - append to an ACTION chain.
  */
 
-actions_ptr actionlist( actions_ptr chain, action_ptr action )
+ACTIONS * actionlist( ACTIONS * chain, ACTION * action )
 {
-    actions_ptr const actions = (actions_ptr)BJAM_MALLOC( sizeof( ACTIONS ) );
+    ACTIONS * const actions = (ACTIONS *)BJAM_MALLOC( sizeof( ACTIONS ) );
     actions->action = action;
     ++action->refs;
     if ( !chain ) chain = actions;
@@ -329,7 +318,7 @@ actions_ptr actionlist( actions_ptr chain, action_ptr action )
     return chain;
 }
 
-static settings_ptr settings_freelist;
+static SETTINGS * settings_freelist;
 
 
 /*
@@ -341,10 +330,10 @@ static settings_ptr settings_freelist;
  * head of the settings chain.
  */
 
-settings_ptr addsettings( settings_ptr head, int flag, object_ptr symbol,
-    list_ptr value )
+SETTINGS * addsettings( SETTINGS * head, int flag, OBJECT * symbol,
+    LIST * value )
 {
-    settings_ptr v;
+    SETTINGS * v;
 
     /* Look for previous settings. */
     for ( v = head; v; v = v->next )
@@ -360,7 +349,7 @@ settings_ptr addsettings( settings_ptr head, int flag, object_ptr symbol,
         if ( v )
             settings_freelist = v->next;
         else
-            v = (settings_ptr)BJAM_MALLOC( sizeof( *v ) );
+            v = (SETTINGS *)BJAM_MALLOC( sizeof( *v ) );
 
         v->symbol = object_copy( symbol );
         v->value = value;
@@ -388,7 +377,7 @@ settings_ptr addsettings( settings_ptr head, int flag, object_ptr symbol,
  * pushsettings() - set all target specific variables.
  */
 
-void pushsettings( module_ptr module, settings_ptr v )
+void pushsettings( struct module_t * module, SETTINGS * v )
 {
     for ( ; v; v = v->next )
         v->value = var_swap( module, v->symbol, v->value );
@@ -399,7 +388,7 @@ void pushsettings( module_ptr module, settings_ptr v )
  * popsettings() - reset target specific variables to their pre-push values.
  */
 
-void popsettings( module_ptr module, settings_ptr v )
+void popsettings( struct module_t * module, SETTINGS * v )
 {
     pushsettings( module, v );  /* just swap again */
 }
@@ -409,10 +398,10 @@ void popsettings( module_ptr module, settings_ptr v )
  * copysettings() - duplicate a settings list, returning the new copy.
  */
 
-settings_ptr copysettings( settings_ptr head )
+SETTINGS * copysettings( SETTINGS * head )
 {
-    settings_ptr copy = 0;
-    settings_ptr v;
+    SETTINGS * copy = 0;
+    SETTINGS * v;
     for ( v = head; v; v = v->next )
         copy = addsettings( copy, VAR_SET, v->symbol, list_copy( v->value ) );
     return copy;
@@ -420,14 +409,29 @@ settings_ptr copysettings( settings_ptr head )
 
 
 /*
- * freeactions() - delete an action list.
+ * freetargets() - delete a targets list.
  */
 
-void freeactions( actions_ptr chain )
+void freetargets( TARGETS * chain )
 {
     while ( chain )
     {
-        actions_ptr const n = chain->next;
+        TARGETS * const n = chain->next;
+        BJAM_FREE( chain );
+        chain = n;
+    }
+}
+
+
+/*
+ * freeactions() - delete an action list.
+ */
+
+void freeactions( ACTIONS * chain )
+{
+    while ( chain )
+    {
+        ACTIONS * const n = chain->next;
         action_free( chain->action );
         BJAM_FREE( chain );
         chain = n;
@@ -439,11 +443,11 @@ void freeactions( actions_ptr chain )
  * freesettings() - delete a settings list.
  */
 
-void freesettings( settings_ptr v )
+void freesettings( SETTINGS * v )
 {
     while ( v )
     {
-        settings_ptr const n = v->next;
+        SETTINGS * const n = v->next;
         object_free( v->symbol );
         list_free( v->value );
         v->next = settings_freelist;
@@ -453,21 +457,21 @@ void freesettings( settings_ptr v )
 }
 
 
-static void freetarget( target_ptr const t, void * )
+static void freetarget( void * xt, void * data )
 {
+    TARGET * const t = (TARGET *)xt;
     if ( t->name       ) object_free ( t->name       );
     if ( t->boundname  ) object_free ( t->boundname  );
     if ( t->settings   ) freesettings( t->settings   );
-    if ( t->depends    ) t->depends.reset();
-    if ( t->dependants ) t->dependants.reset();
-    if ( t->parents    ) t->parents.reset();
+    if ( t->depends    ) freetargets ( t->depends    );
+    if ( t->dependants ) freetargets ( t->dependants );
+    if ( t->parents    ) freetargets ( t->parents    );
     if ( t->actions    ) freeactions ( t->actions    );
     if ( t->includes   )
     {
         freetarget( t->includes, (void *)0 );
         BJAM_FREE( t->includes );
     }
-    t->~_target();
 }
 
 
@@ -479,12 +483,12 @@ void rules_done()
 {
     if ( targethash )
     {
-        hash_enumerate( targethash, freetarget );
+        hashenumerate( targethash, freetarget, 0 );
         hashdone( targethash );
     }
     while ( settings_freelist )
     {
-        settings_ptr const n = settings_freelist->next;
+        SETTINGS * const n = settings_freelist->next;
         BJAM_FREE( settings_freelist );
         settings_freelist = n;
     }
@@ -495,7 +499,7 @@ void rules_done()
  * actions_refer() - add a new reference to the given actions.
  */
 
-void actions_refer( rule_actions_ptr a )
+void actions_refer( rule_actions * a )
 {
     ++a->reference_count;
 }
@@ -505,7 +509,7 @@ void actions_refer( rule_actions_ptr a )
  * actions_free() - release a reference to given actions.
  */
 
-void actions_free( rule_actions_ptr a )
+void actions_free( rule_actions * a )
 {
     if ( --a->reference_count <= 0 )
     {
@@ -520,7 +524,7 @@ void actions_free( rule_actions_ptr a )
  * set_rule_body() - set the argument list and procedure of the given rule.
  */
 
-static void set_rule_body( rule_ptr rule, function_ptr procedure )
+static void set_rule_body( RULE * rule, FUNCTION * procedure )
 {
     if ( procedure )
         function_refer( procedure );
@@ -535,7 +539,7 @@ static void set_rule_body( rule_ptr rule, function_ptr procedure )
  * global module.
  */
 
-static object_ptr global_rule_name( rule_ptr r )
+static OBJECT * global_rule_name( RULE * r )
 {
     if ( r->module == root_module() )
         return object_copy( r->name );
@@ -558,14 +562,14 @@ static object_ptr global_rule_name( rule_ptr r )
  * module.
  */
 
-static rule_ptr global_rule( rule_ptr r )
+static RULE * global_rule( RULE * r )
 {
     if ( r->module == root_module() )
         return r;
 
     {
-        object_ptr name = global_rule_name( r );
-        rule_ptr const result = define_rule( r->module, name, root_module() );
+        OBJECT * const name = global_rule_name( r );
+        RULE * const result = define_rule( r->module, name, root_module() );
         object_free( name );
         return result;
     }
@@ -578,10 +582,10 @@ static rule_ptr global_rule( rule_ptr r )
  * exported to the global module as modulename.rulename.
  */
 
-rule_ptr new_rule_body( module_ptr m, object_ptr rulename, function_ptr procedure,
+RULE * new_rule_body( module_t * m, OBJECT * rulename, FUNCTION * procedure,
     int exported )
 {
-    rule_ptr const local = define_rule( m, rulename, m );
+    RULE * const local = define_rule( m, rulename, m );
     local->exported = exported;
     set_rule_body( local, procedure );
 
@@ -597,7 +601,7 @@ rule_ptr new_rule_body( module_ptr m, object_ptr rulename, function_ptr procedur
 }
 
 
-static void set_rule_actions( rule_ptr rule, rule_actions_ptr actions )
+static void set_rule_actions( RULE * rule, rule_actions * actions )
 {
     if ( actions )
         actions_refer( actions );
@@ -607,10 +611,10 @@ static void set_rule_actions( rule_ptr rule, rule_actions_ptr actions )
 }
 
 
-static rule_actions_ptr actions_new( function_ptr command, list_ptr bindlist,
+static rule_actions * actions_new( FUNCTION * command, LIST * bindlist,
     int flags )
 {
-    rule_actions_ptr const result = (rule_actions_ptr)BJAM_MALLOC( sizeof(
+    rule_actions * const result = (rule_actions *)BJAM_MALLOC( sizeof(
         rule_actions ) );
     function_refer( command );
     result->command = command;
@@ -621,11 +625,11 @@ static rule_actions_ptr actions_new( function_ptr command, list_ptr bindlist,
 }
 
 
-rule_ptr new_rule_actions( module_ptr m, object_ptr rulename, function_ptr command,
-    list_ptr bindlist, int flags )
+RULE * new_rule_actions( module_t * m, OBJECT * rulename, FUNCTION * command,
+    LIST * bindlist, int flags )
 {
-    rule_ptr const local = define_rule( m, rulename, m );
-    rule_ptr const global = global_rule( local );
+    RULE * const local = define_rule( m, rulename, m );
+    RULE * const global = global_rule( local );
     set_rule_actions( local, actions_new( command, bindlist, flags ) );
     set_rule_actions( global, local->actions );
     return local;
@@ -639,16 +643,16 @@ rule_ptr new_rule_actions( module_ptr m, object_ptr rulename, function_ptr comma
  * modules, look in module 'name1' for rule 'name2'.
  */
 
-rule_ptr lookup_rule( object_ptr rulename, module_ptr m, int local_only )
+RULE * lookup_rule( OBJECT * rulename, module_t * m, int local_only )
 {
-    rule_ptr r;
-    rule_ptr result = 0;
-    module_ptr original_module = m;
+    RULE     * r;
+    RULE     * result = 0;
+    module_t * original_module = m;
 
     if ( m->class_module )
         m = m->class_module;
 
-    if ( m->rules && ( r = (rule_ptr)hash_find( m->rules, rulename ) ) )
+    if ( m->rules && ( r = (RULE *)hash_find( m->rules, rulename ) ) )
         result = r;
     else if ( !local_only && m->imported_modules )
     {
@@ -659,8 +663,8 @@ rule_ptr lookup_rule( object_ptr rulename, module_ptr m, int local_only )
             /* Now, r->name keeps the module name, and p + 1 keeps the rule
              * name.
              */
-            object_ptr rule_part = object_new( p + 1 );
-            object_ptr module_part;
+            OBJECT * rule_part = object_new( p + 1 );
+            OBJECT * module_part;
             {
                 string buf[ 1 ];
                 string_new( buf );
@@ -698,9 +702,9 @@ rule_ptr lookup_rule( object_ptr rulename, module_ptr m, int local_only )
 }
 
 
-rule_ptr bindrule( object_ptr rulename, module_ptr m )
+RULE * bindrule( OBJECT * rulename, module_t * m )
 {
-    rule_ptr result = lookup_rule( rulename, m, 0 );
+    RULE * result = lookup_rule( rulename, m, 0 );
     if ( !result )
         result = lookup_rule( rulename, root_module(), 0 );
     /* We have only one caller, 'evaluate_rule', which will complain about
@@ -713,21 +717,21 @@ rule_ptr bindrule( object_ptr rulename, module_ptr m )
 }
 
 
-rule_ptr import_rule( rule_ptr source, module_ptr m, object_ptr name )
+RULE * import_rule( RULE * source, module_t * m, OBJECT * name )
 {
-    rule_ptr const dest = define_rule( source->module, name, m );
+    RULE * const dest = define_rule( source->module, name, m );
     set_rule_body( dest, source->procedure );
     set_rule_actions( dest, source->actions );
     return dest;
 }
 
 
-void rule_localize( rule_ptr rule, module_ptr m )
+void rule_localize( RULE * rule, module_t * m )
 {
     rule->module = m;
     if ( rule->procedure )
     {
-        function_ptr procedure = function_unbind_variables( rule->procedure );
+        FUNCTION * procedure = function_unbind_variables( rule->procedure );
         function_refer( procedure );
         function_free( rule->procedure );
         rule->procedure = procedure;

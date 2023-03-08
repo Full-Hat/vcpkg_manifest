@@ -5,7 +5,6 @@
  */
 
 /*  This file is ALSO:
- *  Copyright 2022 René Ferdinand Rivera Morell
  *  Copyright 2001-2004 David Abrahams.
  *  Distributed under the Boost Software License, Version 1.0.
  *  (See accompanying file LICENSE.txt or https://www.bfgroup.xyz/b2/LICENSE.txt)
@@ -61,7 +60,7 @@ void cmdlist_free( CMDLIST * l )
 
 CMD * cmd_new( RULE * rule, LIST * targets, LIST * sources, LIST * shell )
 {
-    CMD * cmd = b2::jam::make_ptr<CMD>();
+    CMD * cmd = (CMD *)BJAM_MALLOC( sizeof( CMD ) );
     FRAME frame[ 1 ];
 
     assert( cmd );
@@ -84,7 +83,8 @@ CMD * cmd_new( RULE * rule, LIST * targets, LIST * sources, LIST * shell )
     lol_init( frame->args );
     lol_add( frame->args, list_copy( targets ) );
     lol_add( frame->args, list_copy( sources ) );
-    function_run_actions( rule->actions->command, frame, cmd->buf );
+    function_run_actions( rule->actions->command, frame, stack_global(),
+        cmd->buf );
     frame_free( frame );
 
     return cmd;
@@ -101,7 +101,8 @@ void cmd_free( CMD * cmd )
     lol_free( &cmd->args );
     list_free( cmd->shell );
     string_free( cmd->buf );
-    b2::jam::free_ptr( cmd );
+    freetargets( cmd->unlock );
+    BJAM_FREE( (void *)cmd );
 }
 
 

@@ -1,6 +1,21 @@
-error: while checking out baseline from commit 'd7f7f1117fbf8711a5d23b6e53b114d7987a75bc', failed to `git show` versions/baseline.json. This may be fixed by fetching commits with `git fetch`.
-error: git failed with exit code: (128).
-fatal: path 'versions/baseline.json' exists on disk, but not in 'd7f7f1117fbf8711a5d23b6e53b114d7987a75bc'
+Detecting compiler hash for triplet arm64-osx...
+All requested packages are currently installed.
+Restored 0 package(s) from /Users/fullhat/.cache/vcpkg/archives in 1.125 us. Use --debug to see more details.
+Total install time: 10 us
+The package boost is compatible with built-in CMake targets:
 
-You can use the current commit as a baseline, which is:
-	"builtin-baseline": "e69c9817d28e0ad37a79b5623c17c2b87df8939f"
+    find_package(Boost REQUIRED [COMPONENTS <libs>...])
+    target_link_libraries(main PRIVATE Boost::boost Boost::<lib1> Boost::<lib2> ...)
+
+sqlite3 provides pkgconfig bindings.
+sqlite3 provides CMake targets:
+
+    find_package(unofficial-sqlite3 CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE unofficial::sqlite3::sqlite3)
+
+sqlitecpp provides CMake targets:
+
+    # this is heuristically generated, and may not be correct
+    find_package(SQLiteCpp CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE SQLiteCpp)
+

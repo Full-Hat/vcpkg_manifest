@@ -43,14 +43,9 @@ namespace b2 { namespace jam {
         inline variable(struct module_t *m, const char *v)
             : var_module(m), var_symbol(object_new(v)) {}
         inline variable(const char *m, const char *v)
-        {
-            OBJECT * module_sym = object_new(m);
-            var_module = bindmodule(module_sym);
-            var_symbol = object_new(v);
-            object_free(module_sym);
-        }
+            : variable(bindmodule(object_new(m)), v) {}
         inline variable(const std::string &m, const std::string &v)
-            : variable(m.c_str(), v.c_str()) {}
+            : variable(bindmodule(object_new(m.c_str())), v.c_str()) {}
         inline explicit variable(const char *v) : variable(root_module(), v) {}
         inline explicit variable(const std::string &v) : variable(v.c_str()) {}
         inline ~variable()

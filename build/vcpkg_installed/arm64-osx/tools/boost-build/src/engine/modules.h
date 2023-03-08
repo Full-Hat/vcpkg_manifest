@@ -1,5 +1,4 @@
 /*
- *  Copyright 2022 René Ferdinand Rivera Morell
  *  Copyright 2001-2004 David Abrahams.
  *  Distributed under the Boost Software License, Version 1.0.
  *  (See accompanying file LICENSE.txt or https://www.bfgroup.xyz/b2/LICENSE.txt)
@@ -12,9 +11,6 @@
 #include "object.h"
 
 typedef struct module_t module_t ;
-
-typedef module_t * module_ptr;
-
 struct module_t
 {
     OBJECT * name;

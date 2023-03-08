@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/boost-type-traits-arm64-osx-1.81.0#2-f17883bb-4989-4f9f-8995-4d87f9d93615",
-  "name": "boost-type-traits:arm64-osx@1.81.0#2 df79ff0209e3c15900e5daee0d2fce18d8e9f354b104c8a61770fe64eb55bc5f",
+  "documentNamespace": "https://spdx.org/spdxdocs/boost-type-traits-arm64-osx-1.81.0#2-853c6348-3a47-490e-8840-39ea8e8a2075",
+  "name": "boost-type-traits:arm64-osx@1.81.0#2 62cefd5151a01fe8ffca59dc79b7bd63cbbde95ecc67019781a3f146520daf34",
   "creationInfo": {
     "creators": [
       "Tool: vcpkg-538539c4e364dd6f14f5e36f6704144254845159"
     ],
-    "created": "2023-03-07T14:58:11Z"
+    "created": "2023-03-08T16:33:21Z"
   },
   "relationships": [
     {
@@ -53,7 +53,7 @@
       "name": "boost-type-traits",
       "SPDXID": "SPDXRef-port",
       "versionInfo": "1.81.0#2",
-      "downloadLocation": "NOASSERTION",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg@4bb18781eb0901d50703978cb7f93329af8a0c0d",
       "homepage": "https://github.com/boostorg/type_traits",
       "licenseConcluded": "BSL-1.0",
       "licenseDeclared": "NOASSERTION",
@@ -64,7 +64,7 @@
     {
       "name": "boost-type-traits:arm64-osx",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "df79ff0209e3c15900e5daee0d2fce18d8e9f354b104c8a61770fe64eb55bc5f",
+      "versionInfo": "62cefd5151a01fe8ffca59dc79b7bd63cbbde95ecc67019781a3f146520daf34",
       "downloadLocation": "NONE",
       "licenseConcluded": "BSL-1.0",
       "licenseDeclared": "NOASSERTION",

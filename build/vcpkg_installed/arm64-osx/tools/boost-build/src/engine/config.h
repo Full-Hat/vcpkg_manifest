@@ -16,7 +16,6 @@ https://www.bfgroup.xyz/b2/LICENSE.txt)
 #define JAM_DEBUGGER 1
 #define OPT_FIX_TARGET_VARIABLES_EXT 1
 #define OPT_IMPROVED_PATIENCE_EXT 1
-// #define BJAM_NO_MEM_CACHE 1
 
 // Autodetect various operating systems..
 

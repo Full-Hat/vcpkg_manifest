@@ -1,4 +1,4 @@
-boost-vcpkg-helpers eef7cce71c5f1268f3b8c82931872aa28a10dda12b63ee38210f3e8ae8d15738
+boost-vcpkg-helpers 15cc5f9793c5e46802b76765edfc7c9d8c9c6ac36a13a887df9bc810925a9153
 cmake 3.25.2
 features core
 portfile.cmake 65260ca2396ba1e9eb2015c13c9cd6d29a101997aef494ac9a2be9be12953a7c

@@ -46,7 +46,6 @@
 #include "lists.h"
 #include "output.h"
 #include "pathsys.h"
-#include "startup.h"
 #include "string.h"
 
 #include <assert.h>
@@ -1271,7 +1270,7 @@ static char const * prepare_command_file( string const * command, int32_t slot )
     if ( !f )
     {
         err_printf( "failed to write command file!\n" );
-        b2::clean_exit( EXITBAD );
+        exit( EXITBAD );
     }
     fputs( command->value, f );
     fclose( f );
@@ -1290,8 +1289,7 @@ static int32_t get_free_cmdtab_slot()
         if ( !cmdtab[ slot ].pi.hProcess )
             return slot;
     err_printf( "no slots for child!\n" );
-    b2::clean_exit( EXITBAD );
-    return -1;
+    exit( EXITBAD );
 }
 
 

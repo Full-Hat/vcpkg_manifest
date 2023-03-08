@@ -5,13 +5,161 @@
     "dependencies": [
         "sqlite3",
         "sqlitecpp",
-        "boost-algorithm"
+        "boost-regex"
     ],
     "overrides": [
         {
+            "name": "boost-range",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-preprocessor",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-container",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-winapi",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-uninstall",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-fusion",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-array",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-optional",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-move",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-exception",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-utility",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-vcpkg",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-functional",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-typeof",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-mp11",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-unordered",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-describe",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-predef",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-iterator",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-assert",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-modular",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-function",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-conversion",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-detail",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-throw",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-static",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-smart",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-io",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-mpl",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-build",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-core",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-bind",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-concept",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-tuple",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-regex",
+            "version": "1.79.0"
+        },
+        {
             "name": "boost-algorithm",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-type",
+            "version": "1.79.0"
+        },
+        {
+            "name": "boost-integer",
             "version": "1.79.0"
         }
     ],
-    "builtin-baseline": "d7f7f1117fbf8711a5d23b6e53b114d7987a75bc"
+    "builtin-baseline": "e69c9817d28e0ad37a79b5623c17c2b87df8939f"
 }

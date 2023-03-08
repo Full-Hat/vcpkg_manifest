@@ -1,16 +1,248 @@
+Package: vcpkg-cmake
+Version: 2022-12-22
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 152a45ac2623c417dfe9126ec151281a148bca41fb9c61aefcd1f4cb796cfdd8
+Status: install ok installed
+
+Package: boost-uninstall
+Version: 1.79.0
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 090e75aa4ce6624b8bc18a3c96dc36350ded717a5871109efedb81e91efd93e9
+Description: Internal vcpkg port used to uninstall Boost
+Status: install ok installed
+
+Package: boost-vcpkg-helpers
+Version: 1.81.0
+Port-Version: 3
+Depends: boost-uninstall
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 15cc5f9793c5e46802b76765edfc7c9d8c9c6ac36a13a887df9bc810925a9153
+Description: Internal vcpkg port used to modularize Boost
+Status: install ok installed
+
+Package: boost-config
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 41e1d1bc1fcf4557cc63639d5897c594b8aa85f95bd7744be4bbb20720d66207
+Description: Boost config module
+Status: install ok installed
+
+Package: boost-static-assert
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 389a2e0fdc6bb5cbce6b1648ef9c543633a3e25bae0c149316af8b6b8de366be
+Description: Boost static_assert module
+Status: install ok installed
+
+Package: boost-type-traits
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-static-assert, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 62cefd5151a01fe8ffca59dc79b7bd63cbbde95ecc67019781a3f146520daf34
+Description: Boost type_traits module
+Status: install ok installed
+
+Package: boost-assert
+Version: 1.79.0
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: d457fc47338b4772f83b6911ed662e628746f791e078659ac8d7014c7c0feee7
+Description: Boost assert module
+Status: install ok installed
+
+Package: boost-throw-exception
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 154f9798891edc96911af81ac62cc52280ee86afdee455ddded6e14abddeb5ed
+Description: Boost throw_exception module
+Status: install ok installed
+
+Package: boost-predef
+Version: 1.79.0
+Depends: boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 6cc7a7e7a2ccc32670519ec32d53a321b6354568626a10ba5d423d3f772b5db0
+Description: Boost predef module
+Status: install ok installed
+
+Package: boost-winapi
+Version: 1.79.0
+Depends: boost-config, boost-predef, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: bc95725f78f050887d6d9dbbcecc67f9e3298638ee2120a11e2a0f6cc07ad9f7
+Description: Boost winapi module
+Status: install ok installed
+
+Package: boost-core
+Version: 1.79.0
+Depends: boost-assert, boost-config, boost-static-assert, boost-throw-exception, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 2a76fb151161866287d9b045f6a1fb76355c3291317f43fb56b627685a1e3d05
+Description: Boost core module
+Status: install ok installed
+
+Package: boost-move
+Version: 1.79.0
+Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-vcpkg-helpers, boost-winapi
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 48337af15e5cf12e37cce2f0bb4b949d7f5534dea9696d9bc6010dc23fecbf0d
+Description: Boost move module
+Status: install ok installed
+
+Package: boost-smart-ptr
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-assert, boost-config, boost-core, boost-move, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 36a4ab4ba81fb5df1861ee1b8b4e2c552df08e5b2ad0f3b459470bb19d81aac2
+Description: Boost smart_ptr module
+Status: install ok installed
+
+Package: boost-preprocessor
+Version: 1.79.0
+Depends: boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 0a14380924708b9ad9a1d53d308b0c23df774c6053a51c0d0366f7ad9ead07db
+Description: Boost preprocessor module
+Status: install ok installed
+
+Package: boost-io
+Version: 1.79.0
+Depends: boost-config, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 549c26dc4c9271b1f9340ba2768e3067b7395da22524f69bdda22678243f5cb2
+Description: Boost io module
+Status: install ok installed
+
+Package: boost-utility
+Version: 1.79.0
+Depends: boost-config, boost-core, boost-io, boost-preprocessor, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: fb439dfa5623c3db434ed62dde9b4f15ed44ef4682208cad8ae79cf64eb02d8a
+Description: Boost utility module
+Status: install ok installed
+
+Package: boost-mpl
+Version: 1.79.0
+Depends: boost-config, boost-core, boost-predef, boost-preprocessor, boost-static-assert, boost-type-traits, boost-utility, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: b6e65eabfe0c815c38e5b1795e68f7ac14312843b3060f941049c3e1859e96f7
+Description: Boost mpl module
+Status: install ok installed
+
+Package: vcpkg-cmake-get-vars
+Version: 2022-12-16
+Depends: vcpkg-cmake
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: bd18c12f8a408d36c6f9cb62b8bfd44245e77ade4d6ba508ef16f60ae48b2ee0
+Status: install ok installed
+
+Package: boost-modular-build-helper
+Version: 1.81.0
+Port-Version: 5
+Depends: boost-uninstall, vcpkg-cmake, vcpkg-cmake-get-vars
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 59752cb2964d966be751d3d5a3dfb5193ac3c58602b9b747c270d7bcc56fe3b3
+Description: Internal vcpkg port used to build Boost libraries
+Status: install ok installed
+
+Package: boost-integer
+Version: 1.79.0
+Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 37e96c8380ed9368aaa67dc2882dadfd914ffe5c480971e0b622095c04a5bf91
+Description: Boost integer module
+Status: install ok installed
+
+Package: boost-mp11
+Version: 1.79.0
+Depends: boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: de739e70a6b588dc4a7719f17b6bd75c820a650be382b86d479b66419eba6514
+Description: Boost mp11 module
+Status: install ok installed
+
+Package: boost-describe
+Version: 1.79.0
+Depends: boost-mp11, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: e256fcc875c31dd804a018a9c2045cbf4ef92c3c7670c71a3dc8b360bef50b72
+Description: Boost describe module
+Status: install ok installed
+
+Package: boost-container-hash
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-describe, boost-mp11, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 0c0b76c043b5cfa63a9f0a5918ca670df942886a21bd2dc3711e4a25defd0f8c
+Description: Boost container_hash module
+Status: install ok installed
+
+Package: boost-concept-check
+Version: 1.81.0
+Port-Version: 2
+Depends: boost-config, boost-preprocessor, boost-static-assert, boost-type-traits, boost-vcpkg-helpers
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 8e243b43c9abede91f72f660b6028b19776dd53204eafd841e9c583b489be31e
+Description: Boost concept_check module
+Status: install ok installed
+
+Package: boost-build
+Version: 1.79.0
+Depends: boost-uninstall
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: 8e167608bc336d729c95dd3153ffead8aecb1a2d1f11790b1c21cc9b73477eba
+Description: Boost.Build
+Status: install ok installed
+
+Package: boost-regex
+Version: 1.79.0
+Depends: boost-assert, boost-build, boost-concept-check, boost-config, boost-container-hash, boost-core, boost-integer, boost-modular-build-helper, boost-mpl, boost-predef, boost-smart-ptr, boost-static-assert, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers, vcpkg-cmake
+Architecture: arm64-osx
+Multi-Arch: same
+Abi: ad31993f714d5d153f05e3ca985b2219febb9141fee944a22269beb5bc67327d
+Description: Boost regex module
+Status: install ok installed
+
 Package: vcpkg-cmake-config
 Version: 2022-02-06
 Port-Version: 1
 Architecture: arm64-osx
 Multi-Arch: same
 Abi: 51166de259888fd342ee2fc8145226678d3b1d04cf278a8687704a17bd8b38e9
-Status: install ok installed
-
-Package: vcpkg-cmake
-Version: 2022-12-22
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: 152a45ac2623c417dfe9126ec151281a148bca41fb9c61aefcd1f4cb796cfdd8
 Status: install ok installed
 
 Package: sqlite3

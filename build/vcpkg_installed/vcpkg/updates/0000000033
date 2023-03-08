@@ -1,9 +1,0 @@
-Package: boost-unordered
-Version: 1.81.0
-Port-Version: 2
-Depends: boost-assert, boost-config, boost-container-hash, boost-core, boost-move, boost-mp11, boost-predef, boost-preprocessor, boost-throw-exception, boost-tuple, boost-type-traits, boost-vcpkg-helpers
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: 46691b2c836e361ffd958349637c6e43134f3ca9a8c14f5aec53e155d4f50baf
-Description: Boost unordered module
-Status: install ok installed

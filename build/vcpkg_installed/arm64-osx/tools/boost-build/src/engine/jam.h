@@ -20,6 +20,10 @@
 
 #include "config.h"
 
+#ifdef HAVE_PYTHON
+#include <Python.h>
+#endif
+
 /* Assume popen support is available unless known otherwise. */
 #define HAVE_POPEN 1
 

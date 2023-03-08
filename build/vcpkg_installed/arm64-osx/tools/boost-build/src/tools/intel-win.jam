@@ -1,4 +1,3 @@
-# Copyright René Ferdinand Rivera Morell 2022
 # Copyright Vladimir Prus 2004.
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.txt
@@ -35,15 +34,6 @@ toolset.flags intel-win.compile PCH_SOURCE <pch>on : <pch-source> ;
 
 toolset.add-requirements <toolset>intel-win,<runtime-link>shared:<threading>multi ;
 
-.oneapidir = [ W32_GETREG
-    "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Intel\\Products\\IntelOneAPI" : "ProductDir" ] ;
-.oneapidir ?= "C:\\Program Files (x86)\\Intel\\oneAPI\\" ;
-.oneapidir = [ path.make $(.oneapidir) ] ;
-
-# Intel oneAPI 2020, and onward.
-.bin(oneAPI) =
-    [ path.join $(.oneapidir) compiler/latest/windows/bin ] ;
-
 # Initializes the intel toolset for windows
 rule init ( version ? :     # the compiler version
             command * :     # the command to invoke the compiler itself
@@ -62,52 +52,22 @@ rule init ( version ? :     # the compiler version
         {
             errors.error "Autodetect of version from command not implemented!" ;
         }
-        local versions ;
-        {
-            # On auto config mode the user can still request a msvc backend.
-            # If some intel compiler doesn't support it, don't try to configure
-            # it!
-            local autodetect-versions = [ get-autodetect-versions () ] ;
-            if $(autodetect-versions)
-            {
-                local msvc-version = [ feature.get-values <compatibility> : $(options) ] ;
-                msvc-version = [ get-msvc-version-from-vc-string $(msvc-version) ] ;
-                for local v in 
-                {
-                    if [ is-msvc-supported $(v) : $(msvc-version) ]
-                    {
-                        versions += $(v) ;
-                        configure $(v) : : $(options) ;
-                    }
-                }
-            }
-        }
-        {
-            local detected_version ;
-            local detected_command ;
-            local command_abs_path ;
-            if ! $(detected_command)
-            {
-                local bin_paths = $(.bin(oneAPI)) ;
-                detected_command = [ common.find-tool icx.exe : $(bin_paths) ] ;
-                if $(detected_command)
-                {
-                    command_abs_path = [ common.get-absolute-tool-path $(detected_command) ] ;
-                }
-            }
-            if $(detected_command)
-            {
-                local version_cmd = "\"$(detected_command)\" /QV 2>&1" ;
-                local version_output = [ SHELL $(version_cmd) ] ;
-                detected_version = [ MATCH "Version ([0-9]+[.][0-9]+)[.][0-9]+" : $(version_output) ] ;
-            }
-            versions += $(detected_version) ;
-            configure $(detected_version) : $(detected_command) : $(options) ;
-        }
-        if ! $(versions)
+        local intel_versions = [ get-autodetect-versions () ] ;
+        if ! $(intel_versions)
         {
             errors.error "No intel compiler version found!" ;
-            return ;
+        }
+        else
+        {
+            local msvc-version = [ feature.get-values <compatibility> : $(options) ] ; # On auto config mode the user can still request a msvc backend. If some intel compiler doesn't support it, don't try to configure it!
+            msvc-version = [ get-msvc-version-from-vc-string $(msvc-version) ] ;
+            for local v in $(intel_versions)
+            {
+                if [ is-msvc-supported $(v) : $(msvc-version) ]
+                {
+                    configure $(v) : : $(options) ;
+                }
+            }
         }
     }
 }
@@ -150,7 +110,7 @@ local rule configure ( version ? : command * : options * )
         }
         if ! $(.iclvars-$(version)-supported-vcs)
         {
-            errors.error "Supported msvc versions not known for intel" $(version) ;
+            errors.error "Supported msvc versions not known for intel $(version)" ;
         }
 
         for local v in $(msvc_versions)
@@ -211,12 +171,7 @@ local rule configure-really ( version ? : command * : options * : compatibility 
         if $(command)
         {
             bin = [ common.get-absolute-tool-path $(command[-1]) ] ;
-            if $(bin) && ( $(major) = 2022 || [ numbers.less 2022 $(major) ] )
-            {
-                bin = [ path.make $(bin) ] ;
-                bin = [ path.parent [ path.parent [ path.parent [ path.parent $(bin) ] ] ] ] ;
-            }
-            else if $(bin) && ( $(major) = 12 || [ numbers.less 12 $(major) ] )
+            if $(bin) && ( $(major) = 12 || [ numbers.less 12 $(major) ] )
             {
                 bin = [ path.make $(bin) ] ;
                 bin = [ path.parent $(bin) ] ;
@@ -300,9 +255,6 @@ local rule configure-really ( version ? : command * : options * : compatibility 
     local default-assembler-intel64 = ml64 ;
     local default-assembler-ia32_intel64 = ml64 ;
     local default-assembler-ia32  = "ml -coff" ;
-    local assembler-flags-intel64 = "-c -Zp4 -Cp -Cx" ;    
-    local assembler-flags-ia32_intel64 = "-c -Zp4 -Cp -Cx" ;    
-    local assembler-flags-ia32 = "-c -Zp4 -Cp -Cx" ;    
     assembler = [ feature.get-values <assembler> : $(options) ] ;
 
     for local c in $(target_types)
@@ -365,8 +317,7 @@ local rule configure-really ( version ? : command * : options * : compatibility 
         toolset.flags intel-win.link .LD $(cpu-conditions) : xilink /nologo ;
         toolset.flags intel-win.archive .LD $(cpu-conditions) : xilink /lib /nologo ;
         toolset.flags intel-win.link .MT $(cpu-conditions) : mt -nologo ;
-        toolset.flags intel-win.compile .ASM $(cpu-conditions) : $(cpu-assembler) -nologo $(assembler-flags-$(c)) ;
-        toolset.flags intel-win.compile .ASM_OUTPUT $(cpu-conditions) : -Fo ;
+        toolset.flags intel-win.compile .ASM $(cpu-conditions) : $(cpu-assembler) -nologo ;
         toolset.flags intel-win.compile .MC $(cpu-conditions) : mc ;
         toolset.flags intel-win.compile .RC $(cpu-conditions) : rc ;
     }
@@ -577,7 +528,6 @@ if [ MATCH (--debug-configuration) : [ modules.peek : ARGV ] ]
 .iclvars-19.1-supported-vcs = "14.2 14.1 14.0 12.0" ;
 .iclvars-21.1-supported-vcs = "14.2 14.1" ;
 .iclvars-2021.1-supported-vcs = "14.2 14.1" ;
-.iclvars-2022.0-supported-vcs = "14.3 14.2 14.1" ;
 .iclvars-version-alias-vc14.2 = vs2019 ;
 .iclvars-version-alias-vc14.1 = vs2017 ;
 .iclvars-version-alias-vc14 = vs2015 ;
