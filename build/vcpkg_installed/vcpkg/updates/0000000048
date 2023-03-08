@@ -1,8 +1,0 @@
-Package: boost-build
-Version: 1.79.0
-Depends: boost-uninstall
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: 8e167608bc336d729c95dd3153ffead8aecb1a2d1f11790b1c21cc9b73477eba
-Description: Boost.Build
-Status: install ok half-installed

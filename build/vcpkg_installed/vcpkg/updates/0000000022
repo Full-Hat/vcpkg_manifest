@@ -1,8 +1,0 @@
-Package: boost-move
-Version: 1.79.0
-Depends: boost-assert, boost-config, boost-core, boost-static-assert, boost-vcpkg-helpers, boost-winapi
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: 48337af15e5cf12e37cce2f0bb4b949d7f5534dea9696d9bc6010dc23fecbf0d
-Description: Boost move module
-Status: install ok half-installed

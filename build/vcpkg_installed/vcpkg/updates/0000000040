@@ -1,8 +1,0 @@
-Package: boost-mp11
-Version: 1.79.0
-Depends: boost-vcpkg-helpers
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: de739e70a6b588dc4a7719f17b6bd75c820a650be382b86d479b66419eba6514
-Description: Boost mp11 module
-Status: install ok half-installed

@@ -1,8 +1,0 @@
-Package: boost-utility
-Version: 1.79.0
-Depends: boost-config, boost-core, boost-io, boost-preprocessor, boost-throw-exception, boost-type-traits, boost-vcpkg-helpers
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: fb439dfa5623c3db434ed62dde9b4f15ed44ef4682208cad8ae79cf64eb02d8a
-Description: Boost utility module
-Status: install ok half-installed

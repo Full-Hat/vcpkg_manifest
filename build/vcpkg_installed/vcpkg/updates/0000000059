@@ -1,6 +1,0 @@
-Package: sqlitecpp
-Feature: sqlite
-Architecture: arm64-osx
-Multi-Arch: same
-Description: Deprecated; no effects
-Status: install ok installed

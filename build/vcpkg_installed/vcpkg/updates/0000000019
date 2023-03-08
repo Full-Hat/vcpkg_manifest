@@ -1,8 +1,0 @@
-Package: boost-winapi
-Version: 1.79.0
-Depends: boost-config, boost-predef, boost-vcpkg-helpers
-Architecture: arm64-osx
-Multi-Arch: same
-Abi: bc95725f78f050887d6d9dbbcecc67f9e3298638ee2120a11e2a0f6cc07ad9f7
-Description: Boost winapi module
-Status: install ok installed
